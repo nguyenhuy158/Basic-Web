@@ -1,10 +1,101 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        body {
+            font-family: Roboto, serif;
+            background-color: #D8D7DB;
+            box-sizing: border-box;
+        }
+
+        #chat {
+            /* width: 300px; */
+            height: 500px;
+            overflow: scroll;
+            border-radius: 10px;
+            /* overflow: hidden; */
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        #chat .hoder {
+            /* border: inherit;
+            overflow: hidden; */
+            width: 50%;
+            border-radius: 10px;
+        }
+
+        #chat .hoder.me {
+            display: flex;
+            flex-direction: row-reverse;
+            width: 50%;
+            margin-left: auto;
+        }
+
+        #chat .hoder .content {
+            background-color: #E5E5EA;
+            border-radius: inherit;
+            padding: 7.5px 5px;
+            margin-bottom: 5px;
+            /* margin-right: 50%; */
+            display: block;
+            width: fit-content;
+        }
+
+        #chat .hoder.me .content:hover {
+            background-color: #058E2F;
+            transition: all 1s;
+        }
+
+        #chat .hoder .content:hover {
+            background-color: #BFBDBF;
+            transition: all 1s;
+        }
+
+        #chat .hoder.me .content {
+            background-color: #01BF41;
+            color: #ffffffee;
+            width: fit-content;
+        }
+
+        ::-webkit-scrollbar {
+            /* 1 */
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-button {
+            /* 2 */
+        }
+
+        ::-webkit-scrollbar-track {
+            /* 3 */
+        }
+
+        ::-webkit-scrollbar-track-piece {
+            /* 4 */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            /* 5 */
+            background-color: #A5CFCD;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar-corner {
+            /* 6 */
+        }
+
+        ::-webkit-resizer {
+            /* 7 */
+        }
+    </style>
 </head>
+
 <body>
     <div id="chat">
         <div class="hoder">
@@ -18,14 +109,16 @@
             <div class="content">Hello</div>
         </div>
         <div class="hoder me">
-            <div class="content">when there are no width specified. I heard they think of adding what you want in CSS3. For now, make do with one of the above.
+            <div class="content">when there are no width specified. I heard they think of adding what you want in CSS3.
+                For now, make do with one of the above.
             </div>
         </div>
         <div class="hoder me">
             <div class="content">Hello</div>
         </div>
         <div class="hoder">
-            <div class="content">lement that has what CSS calls shrink-to-fit width and the spec does not provide a blessed way to get such a thing. In CSS2, shrink-to-fit is not a goal, bu</div>
+            <div class="content">lement that has what CSS calls shrink-to-fit width and the spec does not provide a
+                blessed way to get such a thing. In CSS2, shrink-to-fit is not a goal, bu</div>
         </div>
         <div class="hoder me">
             <div class="content">Hello</div>
@@ -43,14 +136,18 @@
             <div class="content">Hello</div>
         </div>
         <div class="hoder">
-            <div class="content">the effect is called "shrinkwrapping", and as answered there's a couple of ways to do this (float, inline, min/max-width) all of which have side-effects to choose from – annakata Jan 16 '09 at 16:32
+            <div class="content">the effect is called "shrinkwrapping", and as answered there's a couple of ways to do
+                this (float, inline, min/max-width) all of which have side-effects to choose from – annakata Jan 16 '09
+                at 16:32
             </div>
         </div>
         <div class="hoder me">
             <div class="content">Hello</div>
         </div>
         <div class="hoder me">
-            <div class="content">You want a block element that has what CSS calls shrink-to-fit width and the spec does not provide a blessed way to get such a thing. In CSS2, shrink-to-fit is not a goal, but means to deal with a situation where browser "has to" get a width out of thin air. Those situations are:</div>
+            <div class="content">You want a block element that has what CSS calls shrink-to-fit width and the spec does
+                not provide a blessed way to get such a thing. In CSS2, shrink-to-fit is not a goal, but means to deal
+                with a situation where browser "has to" get a width out of thin air. Those situations are:</div>
         </div>
         <div class="hoder me">
             <div class="content">Hello</div>
@@ -60,4 +157,5 @@
         </div>
     </div>
 </body>
+
 </html>
