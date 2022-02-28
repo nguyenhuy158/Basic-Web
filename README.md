@@ -1,3 +1,3 @@
 # web_basic
 
-store all alb WEB at TDTU
+store all lab WEB at TDTU

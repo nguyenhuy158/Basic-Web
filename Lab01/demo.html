@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        input {
+            position: relative;
+        }
+
+        input::before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #00f;
+        }
+
+        input:checked::before {
+            background-color: #f00;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="checkbox" name=" " id="">
+</body>
+
+</html>
