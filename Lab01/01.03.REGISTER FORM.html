@@ -8,119 +8,153 @@
     <title>REGISTER FORM</title>
 
     <style>
-        table {
-            border: 1px solid rgb(202, 202, 202);
-            width: 40%;
-            margin: 0 auto;
-            padding: 10px 5px;
+        * {
+            box-sizing: border-box;
         }
 
-        input[type="text"] {
+        table {
+            border: 1px solid #D9D9D9;
+            width: 50%;
+            margin: 16px auto;
+
+            padding: 10px 5px;
+            border-spacing: 8px;
+        }
+
+        label {}
+
+        input[type='text'],
+        input[type='email'],
+        input[type='date'],
+        input[type='time'],
+        input[type='range'],
+        textarea,
+        select {
             width: 100%;
+        }
+
+        .top {
+            vertical-align: top;
         }
     </style>
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td>Your Name</td>
-            <td>
-                <input type="text" placeholder="Full Name" required>
-            </td>
-        </tr>
-        <tr>
-            <td>Email Address</td>
-            <td>
-                <input type="email" placeholder="Email" required>
-            </td>
-        </tr>
-        <tr>
-            <td>Birthday</td>
-            <td>
-                <input type="date" name="" id="">
-            </td>
-        </tr>
-        <tr>
-            <td>Birthtime</td>
-            <td>
-                <input type="time">
-            </td>
-        </tr>
-        <tr>
-            <td>Gender</td>
-            <td>
-                <input type="radio" name="gender" id="male">
-                <label for="male">Male</label>
+    <form action="https://web-503073.herokuapp.com/lab01/register.php" method="post">
+        <table>
 
-                <input type="radio" name="gender" id="female">
-                <label for="female">Female</label>
-            </td>
-        </tr>
-        <tr>
-            <td>From</td>
-            <td>
-                <select name="" id="">
-                    <option value="">Viet Nam</option>
-                    <option value="">US</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    Favorite IDE
-                </p>
-            </td>
-            <td>
-                <input type="checkbox" name="" id="vscode">
-                <label for="vscode">Visual Studio Code</label>
-                <br>
+            <tr>
+                <td>Your Name</td>
+                <td>
+                    <input name="name" type="text" placeholder="Full Name" required>
+                </td>
+            </tr>
 
-                <input type="checkbox" name="" id="sublimetext">
-                <label for="sublimetext">Sublime Text</label>
-                <br>
+            <tr>
+                <td>Email Address</td>
+                <td>
+                    <input name="email" type="email" placeholder="Email" required>
+                </td>
+            </tr>
 
-                <input type="checkbox" name="" id="eclipse">
-                <label for="eclipse">Eclipse</label>
-                <br>
+            <tr>
+                <td>Birthday</td>
+                <td>
+                    <input name="birthday" type="date" required>
+                </td>
+            </tr>
 
-                <input type="checkbox" name="" id="atom">
-                <label for="atom">Atom</label>
-                <br>
+            <tr>
+                <td>Birthtime</td>
+                <td>
+                    <input name="birthtime" type="time" required>
+                </td>
+            </tr>
 
-                <input type="checkbox" name="" id="intelijidea">
-                <label for="intelijidea">Intelij Idea</label>
-            </td>
-        </tr>
-        <tr>
-            <td>TOEIC Score</td>
-            <td>
-                <input type="range" name="" id="">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Message
-            </td>
-            <td>
-                <textarea style="width: 100%;" name="" id="" cols="20" rows="4"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-            </td>
-            <td>
-                <button type="submit">
-                    Register
-                </button>
-                <button type="reset">
-                    Again
-                </button>
-            </td>
-        </tr>
+            <tr>
+                <td>Gender</td>
+                <td>
+                    <input type="radio" name="gender" id="male" value="male">
+                    <label for="male">Male</label>
 
-    </table>
+                    <input type="radio" name="gender" id="female" value="female">
+                    <label for="female">Female</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>From</td>
+                <td>
+                    <select name="country">
+                        <option value="" disabled selected>Select a country</option>
+                        <optgroup label="Asia">
+                            <option value="Vietnam">Vietnam</option>
+                            <option value="Laos">Laos</option>
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Singapore">Singapore</option>
+                        </optgroup>
+                        <optgroup label="Europe">
+                            <option value="France">France</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Finland">Finland</option>
+                            <option value="Ireland">Ireland</option>
+                        </optgroup>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="top">Favorite IDE</td>
+                <td>
+                    <input type="checkbox" name=" favorite_ide[]" value="Visual Studio Code" id="vscode">
+                    <label for="vscode">Visual Studio Code</label>
+                    <br>
+
+                    <input type="checkbox" name=" favorite_ide[]" value="Sublime Text" id="sublimetext">
+                    <label for="sublimetext">Sublime Text</label>
+                    <br>
+
+                    <input type="checkbox" name=" favorite_ide[]" value="Eclipse" id="eclipse">
+                    <label for="eclipse">Eclipse</label>
+                    <br>
+
+                    <input type="checkbox" name=" favorite_ide[]" value="Atom" id="atom">
+                    <label for="atom">Atom</label>
+                    <br>
+
+                    <input type="checkbox" name=" favorite_ide[]" value="Intelij Idea" id="intelijidea">
+                    <label for="intelijidea">Intelij Idea</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>TOEIC Score</td>
+                <td>
+                    <input name="toeic" type="range" max="990" min="5" step="5">
+                </td>
+            </tr>
+            <tr>
+                <td class="top">Message</td>
+                <td>
+                    <textarea name="message" cols="20" rows="4"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <button type="submit">
+                        Register
+                    </button>
+                    <button type="reset">
+                        Again
+                    </button>
+                </td>
+            </tr>
+
+        </table>
+    </form>
 </body>
 
 </html>
