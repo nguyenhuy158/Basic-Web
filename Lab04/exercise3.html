@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>JS DOM Manipulations</title>
     <meta charset="utf-8">
@@ -9,55 +10,103 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 
-<style>
-   
-</style>
+    <style>
+
+    </style>
 
 
-<div class="container">
-    
-    <div class="row justify-content-center">
-        <div class="col-md-8 myform border rounded p-4 mt-5">
-            <div class="form-group">
-                <label for="message">Text content:</label>
-                <input type="text" class="form-control" id="message" placeholder="Enter new text" name="message">
-            </div>
-            <div class="form-group">
-                <label for="color">Text color:</label>
-                <select name="color" id="color" class="custom-select">
-                    <option>Black</option>
-                    <option>Red</option>
-                    <option>Green</option>
-                    <option>Blue</option>
-                </select>
-            </div>
-            <div class="form-group">
-                
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="bold">
-                    <label class="custom-control-label" for="bold">Bold</label>
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 myform border rounded p-4 mt-5">
+                <div class="form-group">
+                    <label for="message">Text content:</label>
+                    <input type="text" class="form-control" id="message" placeholder="Enter new text" name="message">
                 </div>
-    
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="italic">
-                    <label class="custom-control-label" for="italic">Italic</label>
+                <div class="form-group">
+                    <label for="color">Text color:</label>
+                    <select name="color" id="color" class="custom-select">
+                        <option>Black</option>
+                        <option>Red</option>
+                        <option>Green</option>
+                        <option>Blue</option>
+                    </select>
                 </div>
-    
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="underline">
-                    <label class="custom-control-label" for="underline">Underline</label>
+                <div class="form-group">
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="bold">
+                        <label class="custom-control-label" for="bold">Bold</label>
+                    </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="italic">
+                        <label class="custom-control-label" for="italic">Italic</label>
+                    </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="underline">
+                        <label class="custom-control-label" for="underline">Underline</label>
+                    </div>
                 </div>
+                <button type="reset" class="btn btn-success">Restore Default</button>
             </div>
-            <button type="button" class="btn btn-success">Restore Default</button>
         </div>
-    </div>
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-8 alert alert-success text-center">This text will be changed immediately when typing new text.</div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-8 alert alert-success text-center">This text will be changed immediately when typing new
+                text.</div>
+        </div>
+
     </div>
 
-</div>
 
+    <script>
+
+        $('#message').on('keydown', function (event) {
+            // console.log($(this).val());
+            $('.alert.alert-success').css('color', $('#color').val());
+            $('.alert.alert-success').text($(this).val());
+        });
+
+        $('#color').on('change', function (event) {
+            // console.log($(this).val());
+            $('.alert.alert-success').css('color', $(this).val());
+        });
+
+        $('#bold').on('change', function (event) {
+            console.log($(this).is(':checked'));
+            if ($(this).is(':checked')) {
+                $('.alert.alert-success').css('font-weight', 'bold');
+            } else {
+                $('.alert.alert-success').css('font-weight', 'normal');
+            }
+        });
+
+        $('#italic').on('change', function (event) {
+            // console.log($(this).val());
+            $('.alert.alert-success').css('font-style', $(this).is(':checked') ? 'italic' : 'normal');
+        });
+
+        $('#underline').on('change', function (event) {
+            $('.alert.alert-success').css('text-decoration', $(this).is(':checked') ? 'underline' : 'none');
+        });
+
+        $('.btn.btn-success').on('click', function (event) {
+            $('.alert.alert-success').text('This text will be changed immediately when typing new text.');
+            $('#message').val('');
+
+            $('#bold').prop("checked", false);
+            $('#italic').prop("checked", false);
+            $('#underline').prop("checked", false);
+            $('#color').val('Black');
+            $('div').attr('style', '');
+        });
+
+
+    </script>
 </body>
+
 </html>

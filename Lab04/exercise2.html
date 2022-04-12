@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Student Management</title>
     <meta charset="utf-8">
@@ -9,61 +10,121 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 
-<style>
-    .container{
-        max-width: 600px;
-    }
-</style>
+    <style>
+        .container {
+            max-width: 600px;
+        }
+    </style>
 
-<div class="container">
-    <h3 class="mt-5 mb-3">Student Management</h3>
-    <form>
+    <div class="container">
+        <h3 class="mt-5 mb-3">Student Management</h3>
+        <form>
 
-        <div class="form-group">
-            <label for="firstname">First name:</label>
-            <input type="text" class="form-control" id="firstname" placeholder="Enter first name" name="firstname">
-        </div>
-        <div class="form-group">
-            <label for="lastname">Last name:</label>
-            <input type="text" class="form-control" id="lastname" placeholder="Enter last name" name="lastname">
-        </div>
+            <div class="form-group">
+                <label for="firstname">First name:</label>
+                <input type="text" class="form-control" id="firstname" placeholder="Enter first name" name="firstname">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last name:</label>
+                <input type="text" class="form-control" id="lastname" placeholder="Enter last name" name="lastname">
+            </div>
 
-        <div class="form-group ">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-        </div>
-        <button class="btn btn-success px-5 mr-1" type="button" class="btn btn-default">Add</button>
-        <button class="btn btn-outline-primary px-5" type="button" class="btn btn-default">Reset</button>
-    </form>
+            <div class="form-group ">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            </div>
+            <div class="errorMessage my-3"></div>
+            <button class="btn btn-success px-5 mr-1" type="button" class="btn btn-default">Add</button>
+            <button class="btn btn-outline-primary px-5" type="reset" class="btn btn-default">Reset</button>
+        </form>
 
-    <br>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-            <td><button class="btn btn-danger btn-sm">Delete</button></td>
-        </tr>
-        <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-            <td><button class="btn btn-danger btn-sm">Delete</button></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+        <br>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>john@example.com</td>
+                    <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                    <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
+    <script>
+
+        $(document).ready(
+            () => reloadDelete()
+        )
+
+        function reloadDelete() {
+            $(".btn.btn-danger").on("click", function (event) {
+                $(this).parent().parent().remove();
+                console.log($(this).parent().parent());
+            });
+        }
+
+        document.querySelector(".btn.btn-success.px-5.mr-1").addEventListener("click", function (event) {
+            let firstnameInput = document.querySelector("#firstname");
+            let lastnameInput = document.querySelector("#lastname");
+            let emailInput = document.querySelector("#email");
+            let errorMessage = document.querySelector(".errorMessage");
+            if (emailInput.value === '' || firstnameInput.value === '' || lastnameInput.value === '') {
+                errorMessage.innerHTML = 'Please enter full';
+                event.preventDefault();
+                return;
+            }
+
+            $(".table.table-hover tbody:last-child").append(`
+            <tr>
+                <td>${firstnameInput.value}</td>
+                <td>${lastnameInput.value}</td>
+                <td>${emailInput.value}</td>
+                <td><button class="btn btn-danger btn-sm">Delete</button></td>
+            </tr>`);
+
+            reloadDelete();
+
+            firstnameInput.value = '';
+            lastnameInput.value = '';
+            emailInput.value = '';
+
+
+
+        }, false);
+
+        document.querySelector("#firstname").addEventListener("focus", function (event) {
+            let errorMessage = document.querySelector(".errorMessage");
+            errorMessage.innerHTML = '';
+        });
+
+        document.querySelector("#lastname").addEventListener("focus", function (event) {
+            let errorMessage = document.querySelector(".errorMessage");
+            errorMessage.innerHTML = '';
+        });
+
+        document.querySelector("#email").addEventListener("focus", function (event) {
+            let errorMessage = document.querySelector(".errorMessage");
+            errorMessage.innerHTML = '';
+        });
+    </script>
 </body>
+
 </html>
