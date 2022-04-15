@@ -1,42 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Table</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 </head>
+
 <body>
 
-<style>
-    *{
-        box-sizing: border-box;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    select{
-        float: left;
-    }
-    img{
-        float: left;
-    }
-</style>
+        select {
+            float: left;
+        }
+
+        img {
+            float: left;
+        }
+    </style>
 
 
-<select id="imageList" name="imageList" size="10">
-    <option value="pic_001.jpg">pic_001.jpg</option>
-    <option value="pic_002.jpg">pic_002.jpg</option>
-    <option value="pic_003.jpg">pic_003.jpg</option>
-    <option value="pic_004.jpg">pic_004.jpg</option>
-    <option value="pic_005.jpg">pic_005.jpg</option>
-    <option value="pic_006.jpg">pic_006.jpg</option>
-    <option value="pic_007.jpg">pic_007.jpg</option>
-    <option value="pic_008.jpg">pic_008.jpg</option>
-    <option value="pic_009.jpg">pic_009.jpg</option>
-    <option value="pic_010.jpg">pic_010.jpg</option>
-</select>
-<img src="images/pic_001.jpg">
-<button type="button" >Back</button>
-<button type="button" >Start slideshow</button>
-<button  type="button">Next</button>
-<p >pic_001.jpg (10/55)</p>
+    <select id="imageList" name="imageList" size="10">
+        <option value="pic_001.jpg">pic_001.jpg</option>
+        <option value="pic_002.jpg">pic_002.jpg</option>
+        <option value="pic_003.jpg">pic_003.jpg</option>
+        <option value="pic_004.jpg">pic_004.jpg</option>
+        <option value="pic_005.jpg">pic_005.jpg</option>
+        <option value="pic_006.jpg">pic_006.jpg</option>
+        <option value="pic_007.jpg">pic_007.jpg</option>
+        <option value="pic_008.jpg">pic_008.jpg</option>
+        <option value="pic_009.jpg">pic_009.jpg</option>
+        <option value="pic_010.jpg">pic_010.jpg</option>
+    </select>
+    <img src="images/pic_001.jpg">
+    <button class="back-slide" type="button">Back</button>
+    <button class="start-slide" type="button">Start slideshow</button>
+    <button class="next-slide" type="button">Next</button>
+    <p>pic_001.jpg (10/55)</p>
+
+    <script>
+        $(document).ready(function (event) {
+            $('#imageList').val('pic_001.jpg');
+        })
+        $('.back-slide').on('click', function (event) {
+            if (parseInt($('#imageList').val().substring(4, 7)) - 1 >= 1) {
+                $('#imageList').val('pic_'.concat((parseInt($('#imageList').val().substring(4, 7)) - 1).toString().padStart(3, '0'), '.jpg'));
+            } else {
+                $('#imageList').val('pic_010.jpg');
+            }
+            $('img').attr("src", 'images/'.concat($('#imageList').val()));
+        });
+        let shows;
+        function presentation(ischeck) {
+            if (!ischeck) {
+                clearInterval(shows);
+                return;
+            }
+            shows = setInterval(function () {
+                let currentIndex = $('#imageList').val().substring(4, 7);
+                // console.log(currentIndex);
+                // console.log(parseInt(currentIndex) + 1 <= 10);
+                if (parseInt(currentIndex) + 1 <= 10) {
+                    $('#imageList').val('pic_'.concat((parseInt(currentIndex) + 1).toString().padStart(3, '0'), '.jpg'));
+
+                    console.log('pic_'.concat((parseInt(currentIndex) + 1).toString().padStart(3, '0'), '.jpg'));
+                } else {
+                    $('#imageList').val('pic_001.jpg');
+                }
+                $('img').attr("src", 'images/'.concat($('#imageList').val()));
+            }, 1000);
+        }
+
+        $('.start-slide').on('click', function (event) {
+            if ($(".back-slide").is(":disabled")
+            ) {
+                $('.back-slide').prop('disabled', false);
+                $('.next-slide').prop('disabled', false);
+                $(this).text('Start slideshow');
+                presentation();
+
+            } else {
+                $('.back-slide').prop('disabled', true);
+                $('.next-slide').prop('disabled', true);
+                $(this).text('Stop slideshow');
+                presentation(true);
+            }
+
+        });
+
+        $('.next-slide').on('click', function (event) {
+            if (parseInt($('#imageList').val().substring(4, 7)) + 1 <= 10) {
+                $('#imageList').val('pic_'.concat((parseInt($('#imageList').val().substring(4, 7)) + 1).toString().padStart(3, '0'), '.jpg'));
+            } else {
+                $('#imageList').val('pic_001.jpg');
+            }
+            $('img').attr("src", 'images/'.concat($('#imageList').val()));
+
+        });
+
+        $('#imageList').change(function (event) {
+            $('img').attr("src", 'images/'.concat($('#imageList').val()));
+            console.log('changed');
+        });
+    </script>
 </body>
+
 </html>
