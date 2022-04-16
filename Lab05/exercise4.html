@@ -26,6 +26,10 @@
         $(document).ready(function () {
             $('.alert-success').hide();
             $('.alert-danger').hide();
+            $('button[type=submit]').prop('disabled', true);
+
+            let codeUpdate = null;
+            let codeRemove = null;
             // đọc dữ liệu ngay khi tải trang xong
 
             $.get("http://localhost/get-students.php", function (data, status) {
@@ -41,7 +45,8 @@
                     // let listStudent = Object.entries(data['data']);
                     // listStudent = []
                     listStudent.forEach((element, index) => {
-                        console.log(element);
+                        // console.log(element);
+                        // row represent for student
                         let row = `
                         <tr>
                             <td>${element['id']}</td>
@@ -49,13 +54,58 @@
                             <td>${element['email']}</td>
                             <td>${element['phone']}</td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="#">Edit</a> <a class="btn btn-sm btn-danger" href="#" onclick="confirmRemoval()">Delete</a>
+                                <a class="btn btn-sm btn-primary" href="#">Edit</a> 
+                                <a class="btn btn-sm btn-danger" href="#">Delete</a>
                                 </td>
                                 </tr >`;
                         $('#table-body').append(row);
                     });
+
+                    // add update for each row (student)
+                    $('a:contains(Edit)').click((event) => {
+                        // console.log('hi');
+                        // console.log(event.target);
+
+                        let nameInput = $('#name');
+                        let emailInput = $('#email');
+                        let phoneInput = $('#phone');
+
+                        console.log($(event.target).parents()[1]);
+                        let row = $(event.target).parents()[1];
+                        console.log($(row).find('td:nth-child(1)').text());
+
+                        nameInput.val($(row).find('td:nth-child(2)').text());
+                        emailInput.val($(row).find('td:nth-child(3)').text());
+                        phoneInput.val($(row).find('td:nth-child(4)').text());
+
+                        codeUpdate = $(row).find('td:nth-child(1)').text();
+
+                        $('button[type=submit]').prop('disabled', false).removeClass('disabled');
+                        $('.add-student').prop('disabled', true);
+
+                        // event.preventDefault();
+                    });
+
+                    // confirm remove
+                    $('a:contains(Delete)').click((event) => {
+                        console.log($(event.target).parents()[1]);
+
+                        let removeConfirmCode = $($(event.target).parents()[1]).find('td:nth-child(1)').text();
+                        removeConfirmCode = parseInt(removeConfirmCode);
+
+                        let removeConfirmName = $($(event.target).parents()[1]).find('td:nth-child(2)').text()
+                        document.getElementById("producer-name").innerHTML = removeConfirmName;
+
+                        $('#confirm-removal-modal').modal({ show: true });
+
+                        let row = $(event.target).parents()[1];
+                        codeRemove = $(row).find('td:nth-child(1)').text();
+                        // event.preventDefault();
+                    });
+
                 }
             }, "json");
+
             $(".add-student").click(function (event) {
                 let nameInput = $('#name').val();
                 let emailInput = $('#email').val();
@@ -68,26 +118,135 @@
                         phone: phoneInput
                     },
                     function (data, status) {
-                        // alert("Data: " + data + "\nStatus: " + status);
-                        $('.alert-success').show().delay(3000).fadeOut();
+                        data = JSON.parse(data);
+                        if (data['status']) {
+
+                            // $('.alert-success').text(data['data']);
+                            $('.alert-success').html(`
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Success!</strong> ${data['data']}
+                            `);
+
+                            $('.alert-success').show().delay(3000).fadeOut();
+                        } else {
+                            $('.alert-danger').html(`
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Failed!</strong> ${data['data']}
+                            `);
+
+                            $('.alert-danger').show().delay(3000).fadeOut();
+                        }
+                        console.log(data);
                     });
 
             });
+
+
+            // button update
+            $('button[type=submit]').click(event => {
+                console.log(codeUpdate);
+                console.log(event.target);
+
+                let nameInput = $('#name').val();
+                let emailInput = $('#email').val();
+                let phoneInput = $('#phone').val();
+
+
+
+                $.post("http://localhost/update-student.php",
+                    {
+                        id: parseInt(codeUpdate),
+                        name: nameInput,
+                        email: emailInput,
+                        phone: phoneInput
+                    },
+                    function (data, status) {
+                        // console.log(typeof (data));
+                        data = JSON.parse(data);
+                        // console.log(data['data']);
+                        // console.log(data['status']);
+                        if (data['status']) {
+
+                            // $('.alert-success').text(data['data']);
+                            $('.alert-success').html(`
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Success!</strong> ${data['data']}
+                            `);
+
+                            $('.alert-success').show().delay(3000).fadeOut();
+                        } else {
+                            $('.alert-danger').html(`
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Failed!</strong> ${data['data']}
+                            `);
+
+                            $('.alert-danger').show().delay(3000).fadeOut();
+                        }
+                        console.log(data);
+                    });
+
+                console.log({
+                    id: parseInt(codeUpdate),
+                    name: nameInput,
+                    email: emailInput,
+                    phone: phoneInput
+                });
+
+                $('#name').val('');
+                $('#email').val('');
+                $('#phone').val('');
+                codeUpdate = null;
+
+                // event.preventDefault();
+            });
+
+
+            $('#delete-button').click(event => {
+
+                $.post("http://localhost/delete-student.php",
+                    {
+                        id: parseInt(codeRemove)
+                    },
+                    function (data, status) {
+                        // console.log(typeof (data));
+                        // console.log(data);
+                        data = JSON.parse(data);
+                        // console.log(data['status']);
+                        if (data['status']) {
+
+                            // $('.alert-success').text(data['data']);
+                            $('.alert-success').html(`
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Success!</strong> ${data['data']}
+                            `);
+
+                            $('.alert-success').show().delay(3000).fadeOut();
+                        } else {
+                            $('.alert-danger').html(`
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Failed!</strong> ${data['data']}
+                            `);
+
+                            $('.alert-danger').show().delay(3000).fadeOut();
+                        }
+                        console.log(data);
+                    });
+            })
+
         });
 
 
-        // hiện dialog xác nhận khi xóa
-        function confirmRemoval() {
-            document.getElementById("producer-name").innerHTML = "My Tam";
-            $('#confirm-removal-modal').modal({ show: true });
-        }
 
+        // // hiện dialog xác nhận khi xóa
+        // function confirmRemoval(event) {
 
-        // hiện thông báo lỗi
-        function showFailedDialog() {
-            document.getElementById("error-message").innerHTML = "An unknown error occured. Please try again later";
-            $('#delete-failed-modal').modal({ show: true });
-        }
+        // }
+
+        // // hiện thông báo lỗi
+        // function showFailedDialog() {
+        //     document.getElementById("error-message").innerHTML = "An unknown error occurred. Please try again later";
+        //     $('#delete-failed-modal').modal({ show: true });
+        // }
     </script>
 
     <div class="container">
@@ -138,14 +297,14 @@
                             </tr>
                         </thead>
                         <tbody id="table-body">
-                            <tr>
+                            <!-- <tr>
                                 <td>1</td>
                                 <td>Lam Truong</td>
                                 <td>john@example.com</td>
                                 <td>01234567789</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="#">Edit</a> <a class="btn btn-sm btn-danger"
-                                        href="#" onclick="confirmRemoval()">Delete</a>
+                                    <a class="btn btn-sm btn-primary" href="#">Edit</a>
+                                    <a class="btn btn-sm btn-danger" href="#" onclick="confirmRemoval()">Delete</a>
                                 </td>
                             </tr>
                             <tr>
@@ -154,8 +313,8 @@
                                 <td>john@example.com</td>
                                 <td>01234567789</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="#">Edit</a> <a class="btn btn-sm btn-danger"
-                                        href="#" onclick="confirmRemoval()">Delete</a>
+                                    <a class="btn btn-sm btn-primary" href="#">Edit</a>
+                                    <a class="btn btn-sm btn-danger" href="#" onclick="confirmRemoval()">Delete</a>
                                 </td>
                             </tr>
                             <tr>
@@ -164,10 +323,10 @@
                                 <td>john@example.com</td>
                                 <td>01234567789</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="#" onclick="showFailedDialog()">Edit</a> <a
-                                        class="btn btn-sm btn-danger" href="#" onclick="confirmRemoval()">Delete</a>
+                                    <a class="btn btn-sm btn-primary" href="#" onclick="showFailedDialog()">Edit</a>
+                                    <a class="btn btn-sm btn-danger" href="#" onclick="confirmRemoval()">Delete</a>
                                 </td>
-                            </tr>
+                            </tr> -->
 
                         </tbody>
                     </table>
@@ -198,8 +357,8 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Xóa sinh viên</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p>Bạn có chắc chắn muốn xóa sinh viên <strong id="producer-name">My Tam</strong>?</p>

@@ -9,7 +9,7 @@ $id = $_POST['id'];
 
 $sql = 'DELETE FROM student where id = ?';
 
-echo "id: " . $id;
+// echo "id: " . $id;
 
 try{
     $stmt = $dbCon->prepare($sql);
@@ -28,7 +28,3 @@ try{
 catch(PDOException $ex){
     die(json_encode(array('status' => false, 'data' => $ex->getMessage())));
 }
-
-
-
-?>
