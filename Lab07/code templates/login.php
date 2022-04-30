@@ -75,7 +75,14 @@ session_start();
                     </div>
 
                     <div class="form-group custom-control custom-checkbox">
-                        <input name="remember" type="checkbox" class="custom-control-input" id="remember">
+                        <!-- <input name="remember" type="checkbox" class="custom-control-input" id="remember"> -->
+                        <?php
+                        if (isset($_COOKIE['remember'])) {
+                            echo '<input name="remember" type="checkbox" class="custom-control-input" id="remember" checked>';
+                        } else {
+                            echo '<input name="remember" type="checkbox" class="custom-control-input" id="remember">';
+                        }
+                        ?>
                         <label class="custom-control-label" for="remember">Remember login</label>
 
                         <?php
@@ -100,6 +107,25 @@ session_start();
                                 'remember',
                                 $_POST['remember'],
                                 time() + (86400 * 30),
+                                "/"
+                            );
+                        } else {
+                            setcookie(
+                                'user',
+                                '',
+                                time() - 3600,
+                                "/"
+                            );
+                            setcookie(
+                                'pass',
+                                '',
+                                time() - 3600,
+                                "/"
+                            );
+                            setcookie(
+                                'remember',
+                                '',
+                                time() - 3600,
                                 "/"
                             );
                         }
