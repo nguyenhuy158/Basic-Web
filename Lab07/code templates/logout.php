@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +17,14 @@
 </head>
 
 <body>
+  <?php
+  // remove all session variables
+  session_unset();
+
+  // destroy the session
+  session_destroy();
+  ?>
+
   <div class="container">
     <div class="row">
       <div class="col-md-6 mt-5 mx-auto p-3 border rounded">
